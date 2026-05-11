@@ -1,6 +1,11 @@
 # wrds
+<!-- badges: start -->
+[![CRAN status](https://www.r-pkg.org/badges/version/wrds)](https://CRAN.R-project.org/package=wrds)
+[![GitHub version](https://img.shields.io/github/r-package/v/statzhero/wrds)](https://github.com/statzhero/wrds)
+[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+<!-- badges: end -->
 
-Simple functions for accessing data from Wharton Research Data Services (WRDS). 
+Simple functions for accessing data from [Wharton Research Data Services](https://wrds-www.wharton.upenn.edu/) (WRDS). A WRDS account is required.
 
 ## Installation
 
@@ -38,7 +43,7 @@ library(wrds)
 wrds <- wrds_connect()
 
 # Discover available data
-list_libraries(wrds)
+list_subscriptions(wrds)
 list_tables(wrds, "comp")
 
 # Inspect table structure
@@ -54,7 +59,7 @@ describe_table(wrds, "comp", "funda", max_cols = 5)
 #> # ... with 943 more columns
 ```
 
-To browse interactively in the [Positron](https://positron.posit.co/) or [RStudio](https://posit.co/products/open-source/rstudio/) Connections pane:
+To browse interactively in the [Positron](https://positron.posit.co/) or [RStudio](https://posit.co/products/open-source/rstudio) Connections pane:
 
 ```r
 library(connections)
@@ -179,7 +184,8 @@ wrds:::compustat_config("quarterly", "global")
 | `wrds_connect()` | Connect to WRDS using keyring credentials |
 | `wrds_disconnect()` | Close connection |
 | `wrds_set_credentials()` | Store credentials in system keyring |
-| `list_libraries()` | List available schemas |
+| `wrds_update_password()` | Update WRDS password without changing username |
+| `list_subscriptions()` | List subscribed data products |
 | `list_tables()` | List tables in a schema |
 | `describe_table()` | Glimpse table structure and sample values |
 | `get_table()` | Generic access to any WRDS table |

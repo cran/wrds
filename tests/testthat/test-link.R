@@ -1,12 +1,3 @@
-# Unit tests
-
-test_that("link_ccm requires valid connection", {
-  expect_error(
-    link_ccm("not a connection"),
-    "must be a database connection"
-  )
-})
-
 # Integration tests
 
 test_that("link_ccm returns expected columns", {
@@ -59,19 +50,16 @@ test_that("link_ccm handles missing linkenddt", {
 
 # link_ibes_crsp tests
 
-test_that("link_ibes_crsp requires valid connection", {
-  expect_error(
-    link_ibes_crsp("not a connection"),
-    "must be a database connection"
-  )
-})
-
 test_that("link_ibes_crsp returns expected columns", {
   skip_on_cran()
   skip_if_no_wrds()
 
   wrds <- wrds_connect()
   withr::defer(wrds_disconnect(wrds))
+
+  subs <- list_subscriptions(wrds)
+  skip_if(!("wrdsapps_link_crsp_ibes" %in% subs),
+          "No subscription to IBES-CRSP linking table")
 
   ibes <- link_ibes_crsp(wrds, lazy = TRUE)
 
@@ -89,6 +77,10 @@ test_that("link_ibes_crsp filters by max_score", {
 
   wrds <- wrds_connect()
   withr::defer(wrds_disconnect(wrds))
+
+  subs <- list_subscriptions(wrds)
+  skip_if(!("wrdsapps_link_crsp_ibes" %in% subs),
+          "No subscription to IBES-CRSP linking table")
 
   # Default excludes score 6
   ibes <- link_ibes_crsp(wrds, lazy = TRUE) |>

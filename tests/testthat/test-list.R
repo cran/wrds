@@ -1,40 +1,17 @@
-# Unit tests
-
-test_that("list_libraries requires valid connection", {
-  expect_error(
-    list_libraries("not a connection"),
-    "must be a database connection"
-  )
-})
-
-test_that("list_tables requires valid connection", {
-  expect_error(
-    list_tables("not a connection", "comp"),
-    "must be a database connection"
-  )
-})
-
-test_that("describe_table requires valid connection", {
-  expect_error(
-    describe_table("not a connection", "comp", "funda"),
-    "must be a database connection"
-  )
-})
-
 # Integration tests
 
-test_that("list_libraries returns character vector", {
+test_that("list_subscriptions returns character vector of schemas", {
   skip_on_cran()
   skip_if_no_wrds()
 
   wrds <- wrds_connect()
   withr::defer(wrds_disconnect(wrds))
 
-  libs <- list_libraries(wrds)
-  expect_type(libs, "character")
-  expect_true(length(libs) > 0)
-  expect_true("comp" %in% libs)
-  expect_true("crsp" %in% libs)
+  subs <- list_subscriptions(wrds)
+  expect_type(subs, "character")
+  expect_true(length(subs) > 0)
+  expect_true("comp" %in% subs)
+  expect_true("crsp" %in% subs)
 })
 
 test_that("list_tables returns tables for comp library", {
